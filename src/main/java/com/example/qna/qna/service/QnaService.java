@@ -51,15 +51,15 @@ public class QnaService {
         List<GetQnaListRes> getQnaListRes = new ArrayList<>();
 
         for (Qna qna : resultQna) {
-            GetQnaListRes article = new GetQnaListRes();
-            article.setIdx(qna.getIdx());
-            article.setTitle(qna.getTitle());
-            Optional<Answer> resultAnswer = answerRepository.findByQnaIdx(article.getIdx());
+            GetQnaListRes qnaListRes = new GetQnaListRes();
+            qnaListRes.setIdx(qna.getIdx());
+            qnaListRes.setTitle(qna.getTitle());
+            Optional<Answer> resultAnswer = answerRepository.findByQnaIdx(qnaListRes.getIdx());
             if (resultAnswer.isPresent()) {
                 Answer answer = resultAnswer.get();
-                article.setAnswerContent(answer.getAnswerContent());
+                qnaListRes.setAnswerContent(answer.getAnswerContent());
             }
-            getQnaListRes.add(article);
+            getQnaListRes.add(qnaListRes);
         }
         return getQnaListRes;
     }

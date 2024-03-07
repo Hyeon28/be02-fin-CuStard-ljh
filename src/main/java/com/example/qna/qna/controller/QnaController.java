@@ -18,22 +18,20 @@ import java.util.List;
 public class QnaController {
     private final QnaService qnaService;
 
-
-
-    @PostMapping("/register")
+    @RequestMapping(method = RequestMethod.POST, value = "/register")
     public ResponseEntity<String> registerArticle(@RequestBody PostQnaRegisterReq postQnaRegisterReq) {
         qnaService.registerQna(postQnaRegisterReq);
         return ResponseEntity.ok("게시글 등록 완료");
     }
 
-    @PostMapping("/read/{idx}")
+    @RequestMapping(method = RequestMethod.POST, value = "/read/{idx}")
     public ResponseEntity<PostQnaReadRes> readArticle(@PathVariable Long idx, @RequestBody PostQnaReadReq postQnaReadReq) {
         PostQnaReadRes postQnaReadRes = qnaService.readQna(idx, postQnaReadReq);
         return ResponseEntity.ok(postQnaReadRes);
     }
 
 
-    @GetMapping("/list")
+    @RequestMapping(method = RequestMethod.GET, value = "/list")
     public ResponseEntity<List<GetQnaListRes>> findAll() {
         List<GetQnaListRes> articles = qnaService.list();
         return ResponseEntity.ok(articles);
