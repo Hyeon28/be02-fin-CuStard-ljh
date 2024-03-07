@@ -1,5 +1,7 @@
 package com.example.qna.qna.service;
 
+import com.example.qna.answer.model.Answer;
+import com.example.qna.answer.repository.AnswerRepository;
 import com.example.qna.common.BaseResponse;
 import com.example.qna.qna.model.Qna;
 import com.example.qna.qna.model.request.PostQnaReadReq;
@@ -20,17 +22,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class QnaService {
     private final QnaRepository qnaRepository;
+    private final AnswerRepository answerRepository;
     private final PasswordEncoder passwordEncoder;
 
     public BaseResponse<PostQnaRegisterRes> registerQna(PostQnaRegisterReq postQnaRegisterReq) {
-        if(postQnaRegisterReq.getTitle()==null){
+        if (postQnaRegisterReq.getTitle() == null) {
             return BaseResponse.failResponse(400, "제목을 입력하지 않았습니다.");
-        }else if(postQnaRegisterReq.getQnaContent()==null){
+        } else if (postQnaRegisterReq.getQnaContent() == null) {
             return BaseResponse.failResponse(400, "내용을 입력하지 않았습니다.");
-        }
-        else if(postQnaRegisterReq.getQnaPwd()==null){
+        } else if (postQnaRegisterReq.getQnaPwd() == null) {
             return BaseResponse.failResponse(400, "비밀번호를 입력하지 않았습니다.");
-        }else {
+        } else {
             Qna qna = Qna.builder()
                     .title(postQnaRegisterReq.getTitle())
                     .qnaPwd(passwordEncoder.encode(postQnaRegisterReq.getQnaPwd()))
@@ -44,16 +46,20 @@ public class QnaService {
         }
     }
 
-    public List<GetQnaListRes> list(){
-        List<Qna> result = qnaRepository.findAll();
+    public List<GetQnaListRes> list() {
+        List<Qna> resultQna = qnaRepository.findAll();
         List<GetQnaListRes> getQnaListRes = new ArrayList<>();
 
-        for(Qna qna : result){
-            GetQnaListRes article1 = new GetQnaListRes();
-            article1.setIdx(qna.getIdx());
-            article1.setTitle(qna.getTitle());
-
-            getQnaListRes.add(article1);
+        for (Qna qna : resultQna) {
+            GetQnaListRes article = new GetQnaListRes();
+            article.setIdx(qna.getIdx());
+            article.setTitle(qna.getTitle());
+            Optional<Answer> resultAnswer = answerRepository.findByQnaIdx(article.getIdx());
+            if (resultAnswer.isPresent()) {
+                Answer answer = resultAnswer.get();
+                article.setAnswerContent(answer.getAnswerContent());
+            }
+            getQnaListRes.add(article);
         }
         return getQnaListRes;
     }
@@ -76,11 +82,11 @@ public class QnaService {
             } else {
                 //비밀번호 일치하지 않음 처리
             }
-        }else{
-            return  null;
+        } else {
+            return null;
             //존재하지 않는 게시글 번호
         }
-        return  null;
+        return null;
     }
 }
 

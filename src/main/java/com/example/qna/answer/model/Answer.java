@@ -21,6 +21,6 @@ public class Answer {
     private String answerContent;
 
     @OneToOne
-    @JoinColumn(name = "articleIdx")
+    @JoinColumn(name = "qnaIdx")
     private Qna qna;
 }

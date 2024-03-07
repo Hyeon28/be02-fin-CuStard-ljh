@@ -26,7 +26,7 @@ public class QnaController {
         return ResponseEntity.ok("게시글 등록 완료");
     }
 
-    @PostMapping("/read/{id}")
+    @PostMapping("/read/{idx}")
     public ResponseEntity<PostQnaReadRes> readArticle(@PathVariable Long idx, @RequestBody PostQnaReadReq postQnaReadReq) {
         PostQnaReadRes postQnaReadRes = qnaService.readQna(idx, postQnaReadReq);
         return ResponseEntity.ok(postQnaReadRes);
