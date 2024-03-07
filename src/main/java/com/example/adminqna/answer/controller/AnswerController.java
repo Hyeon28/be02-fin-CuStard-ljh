@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/article")
+@RequestMapping("/admin/qna")
 @CrossOrigin("*")
 public class AnswerController {
     private final AnswerService answerService;
