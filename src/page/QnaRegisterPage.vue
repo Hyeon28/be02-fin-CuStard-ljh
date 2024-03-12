@@ -26,7 +26,7 @@
     },
     methods: {
       submitForm() {
-        axios.post("http://localhost:8081/qna/register", {
+        axios.post("http://localhost:8080/qna/register", {
           title: this.title,
           content: this.content,
           password: this.password
@@ -36,7 +36,6 @@
           this.title = '';
           this.content = '';
           this.password = '';
-          this.loadArticles();
         })
         .catch((error) => {
           console.error("데이터 전송 실패:", error);

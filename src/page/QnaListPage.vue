@@ -24,7 +24,7 @@
     },
     methods: {
       loadArticles() {
-        axios.get("http://localhost:8081/qna/list")
+        axios.get("http://localhost:8080/qna/list")
           .then((response) => {
             this.qnas = response.data;
           })

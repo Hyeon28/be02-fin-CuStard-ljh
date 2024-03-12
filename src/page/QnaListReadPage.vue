@@ -8,7 +8,17 @@
       </form>
     </div>
     <div v-else>
-      <div class="article-container">
+      <div v-if="qna && qna.answerContent" class="article-container">
+        <div class="article-header">
+          <h2>{{ qna.title }}</h2>
+        </div>
+        <div class="article-content">
+          <p>{{ qna.qnaContent }}</p>
+          <h3>답변:</h3>
+          <p>{{ qna.answerContent }}</p>
+        </div>
+      </div>
+      <div v-else class="article-container">
         <div class="article-header">
           <h2>{{ qna.title }}</h2>
         </div>
@@ -19,6 +29,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from 'axios';
@@ -33,7 +44,7 @@ export default {
   },
   methods: {
     submitPassword() {
-      axios.post(`http://localhost:8081/qna/read/${this.$route.params.idx}`, { qnaPwd: this.password })
+      axios.post(`http://localhost:8080/qna/read/${this.$route.params.idx}`, { qnaPwd: this.password })
         .then(response => {
           if (response.status === 200) {
             this.qna = response.data;
